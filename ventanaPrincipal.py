@@ -9,7 +9,9 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-
+from registro import Ui_Crear
+from listado import Ui_Listar
+import geocoder, requests, json
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -55,12 +57,29 @@ class Ui_MainWindow(object):
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
+        #Funcionalidades para la interfaz
+        self.button_listar.clicked.connect(self.abrir_listar)
+        self.button_registrar.clicked.connect(self.abrir_crear)
+
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.titulo.setText(_translate("MainWindow", "Cliente"))
         self.button_registrar.setText(_translate("MainWindow", "Registrar Persona"))
         self.button_listar.setText(_translate("MainWindow", "Listado de Personas"))
+
+    def abrir_crear(self):
+        self.crearUI = QtWidgets.QDialog()
+        myloc = geocoder.ip('me')
+        self.ui = Ui_Crear()
+        self.ui.setupUi(self.crearUI, myloc.latlng) #Planeo agregar cliente como argumento
+        self.crearUI.show()
+
+    def abrir_listar(self):
+        self.listarUI = QtWidgets.QDialog()
+        self.ui = Ui_Listar()
+        self.ui.setupUi(self.listarUI) #Planeo agregar cliente como argumento
+        self.listarUI.show()
 
 
 if __name__ == "__main__":

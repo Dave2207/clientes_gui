@@ -9,10 +9,12 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+import requests, json, geocoder, base64
+from zeep import Client
 
 
-class Ui_Dialog(object):
-    def setupUi(self, Dialog):
+class Ui_Crear(object):
+    def setupUi(self, Dialog, loc):
         Dialog.setObjectName("Dialog")
         Dialog.resize(477, 410)
         self.layoutWidget = QtWidgets.QWidget(Dialog)
@@ -122,11 +124,14 @@ class Ui_Dialog(object):
         self.btn_registrar.setObjectName("btn_registrar")
         self.verticalLayout.addWidget(self.btn_registrar)
 
-        self.retranslateUi(Dialog)
+        self.retranslateUi(Dialog, loc)
         self.cbx_nivel.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
 
-    def retranslateUi(self, Dialog):
+        #Funcionalidades
+
+
+    def retranslateUi(self, Dialog, loc):
         _translate = QtCore.QCoreApplication.translate
         Dialog.setWindowTitle(_translate("Dialog", "Dialog"))
         self.lbl_Latitud.setText(_translate("Dialog", "Latitud: "))
@@ -145,6 +150,11 @@ class Ui_Dialog(object):
         self.rdbtn_REST_crear.setText(_translate("Dialog", "REST"))
         self.rdbtn_SOAP_crear.setText(_translate("Dialog", "SOAP"))
         self.btn_registrar.setText(_translate("Dialog", "Registrar"))
+        self.txt_latitud.setText(str(loc[0]))
+        self.txt_longitud.setText(str(loc[1]))
+        self.txt_latitud.setEnabled(False)
+        self.txt_longitud.setEnabled(False)
+
 
 
 if __name__ == "__main__":
@@ -152,6 +162,7 @@ if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
     Dialog = QtWidgets.QDialog()
     ui = Ui_Dialog()
-    ui.setupUi(Dialog)
+    myloc = geocoder.ip('me')
+    ui.setupUi(Dialog, myloc)
     Dialog.show()
     sys.exit(app.exec_())

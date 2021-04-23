@@ -9,9 +9,10 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+import requests, json
+from zeep import Client
 
-
-class Ui_Dialog(object):
+class Ui_Listar(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
         Dialog.resize(576, 675)
