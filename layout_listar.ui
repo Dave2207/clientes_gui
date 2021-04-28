@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>576</width>
+    <width>629</width>
     <height>675</height>
    </rect>
   </property>
@@ -18,47 +18,17 @@
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
-  <widget class="QTableView" name="tableView">
-   <property name="geometry">
-    <rect>
-     <x>20</x>
-     <y>160</y>
-     <width>531</width>
-     <height>481</height>
-    </rect>
-   </property>
-  </widget>
   <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
-     <x>130</x>
-     <y>20</y>
-     <width>291</width>
+     <x>160</x>
+     <y>10</y>
+     <width>300</width>
      <height>131</height>
     </rect>
    </property>
    <layout class="QGridLayout" name="gridLayout">
-    <item row="2" column="0" alignment="Qt::AlignLeft">
-     <widget class="QLabel" name="lbl_buscarID">
-      <property name="text">
-       <string>Buscar por Id:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="3" column="0" colspan="2" alignment="Qt::AlignHCenter">
-     <widget class="QPushButton" name="btn_listarTodos">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="text">
-       <string>Listar todos</string>
-      </property>
-     </widget>
-    </item>
-    <item row="1" column="0" colspan="2" alignment="Qt::AlignHCenter">
+    <item row="1" column="0" colspan="4" alignment="Qt::AlignHCenter">
      <widget class="QLabel" name="lbl_listado">
       <property name="font">
        <font>
@@ -72,6 +42,26 @@
       </property>
      </widget>
     </item>
+    <item row="2" column="0" alignment="Qt::AlignLeft">
+     <widget class="QLabel" name="lbl_buscarID">
+      <property name="text">
+       <string>Buscar por Id:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="0" colspan="4" alignment="Qt::AlignHCenter">
+     <widget class="QPushButton" name="btn_listarTodos">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="text">
+       <string>Listar todos</string>
+      </property>
+     </widget>
+    </item>
     <item row="2" column="1">
      <widget class="QSpinBox" name="spn_id">
       <property name="sizePolicy">
@@ -80,17 +70,27 @@
         <verstretch>0</verstretch>
        </sizepolicy>
       </property>
+      <property name="minimum">
+       <number>1</number>
+      </property>
       <property name="maximum">
-       <number>1000</number>
+       <number>10000</number>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="2" colspan="2">
+     <widget class="QPushButton" name="btn_buscar">
+      <property name="text">
+       <string>Buscar</string>
       </property>
      </widget>
     </item>
    </layout>
   </widget>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
-     <x>450</x>
+     <x>490</x>
      <y>40</y>
      <width>101</width>
      <height>91</height>
@@ -118,6 +118,49 @@
      </widget>
     </item>
    </layout>
+  </widget>
+  <widget class="QTableWidget" name="tabla_listado">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>160</y>
+     <width>601</width>
+     <height>501</height>
+    </rect>
+   </property>
+   <column>
+    <property name="text">
+     <string>ID</string>
+    </property>
+    <property name="textAlignment">
+     <set>AlignCenter</set>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Nombre</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Sector</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Nivel Educ.</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Latitud</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Longitud</string>
+    </property>
+   </column>
   </widget>
  </widget>
  <resources/>
