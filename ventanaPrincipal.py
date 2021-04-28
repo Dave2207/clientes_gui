@@ -76,7 +76,7 @@ class Ui_MainWindow(object):
         self.crearUI.show()
 
     def abrir_listar(self):
-        self.listarUI = QtWidgets.QDialog()
+        self.listarUI = QtWidgets.QMainWindow()
         self.ui = Ui_Listar()
         self.ui.setupUi(self.listarUI) #Planeo agregar cliente como argumento
         self.listarUI.show()

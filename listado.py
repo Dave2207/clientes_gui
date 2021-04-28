@@ -10,79 +10,67 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 import requests, json
+from texttable import *
 from zeep import Client
 
 class Ui_Listar(object):
-    def setupUi(self, Dialog):
-        Dialog.setObjectName("Dialog")
-        Dialog.resize(576, 675)
+    def setupUi(self, MainWindow):
+        MainWindow.setObjectName("Dialog")
+        MainWindow.resize(600, 269)
+        self.centralwidget = QtWidgets.QWidget(MainWindow)
+        self.centralwidget.setObjectName("centralwidget")
+        self.txtUsuario = QtWidgets.QLineEdit(self.centralwidget)
+        self.txtUsuario.setGeometry(QtCore.QRect(150, 20, 113, 20))
+        self.txtUsuario.setObjectName("txtUsuario")
+        self.lblUsuario = QtWidgets.QLabel(self.centralwidget)
+        self.lblUsuario.setGeometry(QtCore.QRect(90, 20, 47, 13))
+        font = QtGui.QFont()
+        font.setPointSize(10)
+        self.lblUsuario.setFont(font)
+        self.lblUsuario.setObjectName("lblUsuario")
+        self.btnConsultar = QtWidgets.QPushButton(self.centralwidget)
+        self.btnConsultar.setGeometry(QtCore.QRect(270, 20, 75, 23))
+        self.btnConsultar.setObjectName("btnConsultar")
+        self.plainTextEdit = QtWidgets.QPlainTextEdit(self.centralwidget)
+        self.plainTextEdit.setGeometry(QtCore.QRect(10, 60, 580, 171))
         font = QtGui.QFont()
         font.setFamily("Arial")
-        Dialog.setFont(font)
-        self.tableView = QtWidgets.QTableView(Dialog)
-        self.tableView.setGeometry(QtCore.QRect(20, 160, 531, 481))
-        self.tableView.setObjectName("tableView")
-        self.layoutWidget = QtWidgets.QWidget(Dialog)
-        self.layoutWidget.setGeometry(QtCore.QRect(130, 20, 291, 131))
-        self.layoutWidget.setObjectName("layoutWidget")
-        self.gridLayout = QtWidgets.QGridLayout(self.layoutWidget)
-        self.gridLayout.setContentsMargins(0, 0, 0, 0)
-        self.gridLayout.setObjectName("gridLayout")
-        self.lbl_buscarID = QtWidgets.QLabel(self.layoutWidget)
-        self.lbl_buscarID.setObjectName("lbl_buscarID")
-        self.gridLayout.addWidget(self.lbl_buscarID, 2, 0, 1, 1, QtCore.Qt.AlignLeft)
-        self.btn_listarTodos = QtWidgets.QPushButton(self.layoutWidget)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.btn_listarTodos.sizePolicy().hasHeightForWidth())
-        self.btn_listarTodos.setSizePolicy(sizePolicy)
-        self.btn_listarTodos.setObjectName("btn_listarTodos")
-        self.gridLayout.addWidget(self.btn_listarTodos, 3, 0, 1, 2, QtCore.Qt.AlignHCenter)
-        self.lbl_listado = QtWidgets.QLabel(self.layoutWidget)
-        font = QtGui.QFont()
-        font.setPointSize(16)
-        font.setBold(True)
-        font.setWeight(75)
-        self.lbl_listado.setFont(font)
-        self.lbl_listado.setObjectName("lbl_listado")
-        self.gridLayout.addWidget(self.lbl_listado, 1, 0, 1, 2, QtCore.Qt.AlignHCenter)
-        self.spn_id = QtWidgets.QSpinBox(self.layoutWidget)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.spn_id.sizePolicy().hasHeightForWidth())
-        self.spn_id.setSizePolicy(sizePolicy)
-        self.spn_id.setMaximum(1000)
-        self.spn_id.setObjectName("spn_id")
-        self.gridLayout.addWidget(self.spn_id, 2, 1, 1, 1)
-        self.widget = QtWidgets.QWidget(Dialog)
-        self.widget.setGeometry(QtCore.QRect(450, 40, 101, 91))
-        self.widget.setObjectName("widget")
-        self.verticalLayout = QtWidgets.QVBoxLayout(self.widget)
-        self.verticalLayout.setContentsMargins(0, 0, 0, 0)
-        self.verticalLayout.setObjectName("verticalLayout")
-        self.rdbtn_REST_listar = QtWidgets.QRadioButton(self.widget)
-        self.rdbtn_REST_listar.setEnabled(True)
-        self.rdbtn_REST_listar.setChecked(True)
-        self.rdbtn_REST_listar.setObjectName("rdbtn_REST_listar")
-        self.verticalLayout.addWidget(self.rdbtn_REST_listar)
-        self.rdbtn_SOAP_listar = QtWidgets.QRadioButton(self.widget)
-        self.rdbtn_SOAP_listar.setObjectName("rdbtn_SOAP_listar")
-        self.verticalLayout.addWidget(self.rdbtn_SOAP_listar)
+        self.plainTextEdit.setFont(font)
+        self.plainTextEdit.setReadOnly(True)
+        self.plainTextEdit.setBackgroundVisible(True)
+        self.plainTextEdit.setCenterOnScroll(True)
+        self.plainTextEdit.setObjectName("plainTextEdit")
+        MainWindow.setCentralWidget(self.centralwidget)
+        self.menubar = QtWidgets.QMenuBar(MainWindow)
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 469, 21))
+        self.menubar.setObjectName("menubar")
+        MainWindow.setMenuBar(self.menubar)
+        self.statusbar = QtWidgets.QStatusBar(MainWindow)
+        self.statusbar.setObjectName("statusbar")
+        MainWindow.setStatusBar(self.statusbar)
 
-        self.retranslateUi(Dialog)
-        QtCore.QMetaObject.connectSlotsByName(Dialog)
+        self.retranslateUi(MainWindow)
+        QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
-    def retranslateUi(self, Dialog):
+        #self.btnConsultar.clicked.connect(self.consultar)
+
+    def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        Dialog.setWindowTitle(_translate("Dialog", "Dialog"))
-        self.lbl_buscarID.setText(_translate("Dialog", "Buscar por Id:"))
-        self.btn_listarTodos.setText(_translate("Dialog", "Listar todos"))
-        self.lbl_listado.setText(_translate("Dialog", "Listado de Personas"))
-        self.rdbtn_REST_listar.setText(_translate("Dialog", "REST"))
-        self.rdbtn_SOAP_listar.setText(_translate("Dialog", "SOAP"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "Consulta"))
+        self.lblUsuario.setText(_translate("MainWindow", "Usuario:"))
+        self.btnConsultar.setText(_translate("MainWindow", "Consultar"))
 
+        self.plainTextEdit.setPlainText("+----+-------------------+----------+--------------------+---------+----------+\n"+
+                                        "| ID |      NOMBRE       |  SECTOR  |    NIVEL EDUC.     | LATITUD | LONGITUD |\n"+
+                                        "+====+===================+==========+====================+=========+==========+\n")
+
+        
+
+
+    # def consultar(self):
+    #     usuario = "admin"
+
+        
 
 if __name__ == "__main__":
     import sys
