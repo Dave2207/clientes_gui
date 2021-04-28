@@ -9,7 +9,8 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-
+import requests
+from zeep import Client
 
 class Ui_Listar(object):
     def setupUi(self, Dialog):
@@ -93,7 +94,7 @@ class Ui_Listar(object):
         QtCore.QMetaObject.connectSlotsByName(Dialog)
 
         #Funcionalidades
-        self.btn_buscar.clicked.connect(self.buscarID)
+        self.btn_buscar.clicked.connect(self.buscarID(self.spn_id.value()))
         self.btn_listarTodos.clicked.connect(self.buscarTodos)
 
     def retranslateUi(self, Dialog):
@@ -118,9 +119,28 @@ class Ui_Listar(object):
         item = self.tabla_listado.horizontalHeaderItem(5)
         item.setText(_translate("Dialog", "Longitud"))
 
-    def buscarID(self):
-        rowPosition
-        pass
+    def buscarID(self, id):
+        if self.rdbtn_REST_listar.isChecked() == True:
+            url = "https://registro.drakath.studio/REST/"
+            req = requests.get(url+id)
+            data = req.json()
+            #Llenar la tabla con los datos correspondientes (PENDIENTE)
+        if self.rdbtn_SOAP_listar.isChecked() == True:
+            pass
+
+    def buscarTodos(self):
+        if self.rdbtn_REST_listar.isChecked() == True:
+            url = "https://registro.drakath.studio/REST/"
+            req = requests.get(url)
+            data = req.json()
+            for j in data:
+                #Agregar uno por uno los datos en la tabla (PENDIENTE)
+                break
+            pass
+        
+        if self.rdbtn_SOAP_listar.isChecked() == True:
+            pass
+
 
 
 if __name__ == "__main__":
