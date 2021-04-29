@@ -9,22 +9,36 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-import requests
+import requests, json
 from zeep import Client
 
 class Ui_Listar(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
-        Dialog.resize(629, 675)
+        Dialog.resize(629, 737)
         font = QtGui.QFont()
         font.setFamily("Arial")
         Dialog.setFont(font)
         self.layoutWidget = QtWidgets.QWidget(Dialog)
-        self.layoutWidget.setGeometry(QtCore.QRect(160, 10, 300, 131))
+        self.layoutWidget.setGeometry(QtCore.QRect(150, 20, 300, 141))
         self.layoutWidget.setObjectName("layoutWidget")
         self.gridLayout = QtWidgets.QGridLayout(self.layoutWidget)
         self.gridLayout.setContentsMargins(0, 0, 0, 0)
         self.gridLayout.setObjectName("gridLayout")
+        self.btn_buscar = QtWidgets.QPushButton(self.layoutWidget)
+        self.btn_buscar.setObjectName("btn_buscar")
+        self.gridLayout.addWidget(self.btn_buscar, 3, 2, 1, 2)
+        self.btn_listarTodos = QtWidgets.QPushButton(self.layoutWidget)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.btn_listarTodos.sizePolicy().hasHeightForWidth())
+        self.btn_listarTodos.setSizePolicy(sizePolicy)
+        self.btn_listarTodos.setObjectName("btn_listarTodos")
+        self.gridLayout.addWidget(self.btn_listarTodos, 4, 0, 1, 4, QtCore.Qt.AlignHCenter)
+        self.lbl_buscarID = QtWidgets.QLabel(self.layoutWidget)
+        self.lbl_buscarID.setObjectName("lbl_buscarID")
+        self.gridLayout.addWidget(self.lbl_buscarID, 3, 0, 1, 1, QtCore.Qt.AlignLeft)
         self.lbl_listado = QtWidgets.QLabel(self.layoutWidget)
         font = QtGui.QFont()
         font.setPointSize(16)
@@ -33,17 +47,6 @@ class Ui_Listar(object):
         self.lbl_listado.setFont(font)
         self.lbl_listado.setObjectName("lbl_listado")
         self.gridLayout.addWidget(self.lbl_listado, 1, 0, 1, 4, QtCore.Qt.AlignHCenter)
-        self.lbl_buscarID = QtWidgets.QLabel(self.layoutWidget)
-        self.lbl_buscarID.setObjectName("lbl_buscarID")
-        self.gridLayout.addWidget(self.lbl_buscarID, 2, 0, 1, 1, QtCore.Qt.AlignLeft)
-        self.btn_listarTodos = QtWidgets.QPushButton(self.layoutWidget)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.btn_listarTodos.sizePolicy().hasHeightForWidth())
-        self.btn_listarTodos.setSizePolicy(sizePolicy)
-        self.btn_listarTodos.setObjectName("btn_listarTodos")
-        self.gridLayout.addWidget(self.btn_listarTodos, 3, 0, 1, 4, QtCore.Qt.AlignHCenter)
         self.spn_id = QtWidgets.QSpinBox(self.layoutWidget)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
@@ -53,10 +56,14 @@ class Ui_Listar(object):
         self.spn_id.setMinimum(1)
         self.spn_id.setMaximum(10000)
         self.spn_id.setObjectName("spn_id")
-        self.gridLayout.addWidget(self.spn_id, 2, 1, 1, 1)
-        self.btn_buscar = QtWidgets.QPushButton(self.layoutWidget)
-        self.btn_buscar.setObjectName("btn_buscar")
-        self.gridLayout.addWidget(self.btn_buscar, 2, 2, 1, 2)
+        self.gridLayout.addWidget(self.spn_id, 3, 1, 1, 1)
+        self.lbl_usuario = QtWidgets.QLabel(self.layoutWidget)
+        self.lbl_usuario.setObjectName("lbl_usuario")
+        self.gridLayout.addWidget(self.lbl_usuario, 2, 0, 1, 1)
+        self.spn_usuario = QtWidgets.QSpinBox(self.layoutWidget)
+        self.spn_usuario.setMinimum(1)
+        self.spn_usuario.setObjectName("spn_usuario")
+        self.gridLayout.addWidget(self.spn_usuario, 2, 1, 1, 1)
         self.layoutWidget1 = QtWidgets.QWidget(Dialog)
         self.layoutWidget1.setGeometry(QtCore.QRect(490, 40, 101, 91))
         self.layoutWidget1.setObjectName("layoutWidget1")
@@ -72,7 +79,7 @@ class Ui_Listar(object):
         self.rdbtn_SOAP_listar.setObjectName("rdbtn_SOAP_listar")
         self.verticalLayout.addWidget(self.rdbtn_SOAP_listar)
         self.tabla_listado = QtWidgets.QTableWidget(Dialog)
-        self.tabla_listado.setGeometry(QtCore.QRect(10, 160, 601, 501))
+        self.tabla_listado.setGeometry(QtCore.QRect(10, 180, 601, 531))
         self.tabla_listado.setObjectName("tabla_listado")
         self.tabla_listado.setColumnCount(6)
         self.tabla_listado.setRowCount(0)
@@ -94,16 +101,17 @@ class Ui_Listar(object):
         QtCore.QMetaObject.connectSlotsByName(Dialog)
 
         #Funcionalidades
-        self.btn_buscar.clicked.connect(self.buscarID(self.spn_id.value()))
+        self.btn_buscar.clicked.connect(self.buscarID)
         self.btn_listarTodos.clicked.connect(self.buscarTodos)
 
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
         Dialog.setWindowTitle(_translate("Dialog", "Dialog"))
-        self.lbl_listado.setText(_translate("Dialog", "Listado de Personas"))
-        self.lbl_buscarID.setText(_translate("Dialog", "Buscar por Id:"))
-        self.btn_listarTodos.setText(_translate("Dialog", "Listar todos"))
         self.btn_buscar.setText(_translate("Dialog", "Buscar"))
+        self.btn_listarTodos.setText(_translate("Dialog", "Listar todos"))
+        self.lbl_buscarID.setText(_translate("Dialog", "Buscar por Id:"))
+        self.lbl_listado.setText(_translate("Dialog", "Listado de Personas"))
+        self.lbl_usuario.setText(_translate("Dialog", "Id. usuario:"))
         self.rdbtn_REST_listar.setText(_translate("Dialog", "REST"))
         self.rdbtn_SOAP_listar.setText(_translate("Dialog", "SOAP"))
         item = self.tabla_listado.horizontalHeaderItem(0)
@@ -119,28 +127,30 @@ class Ui_Listar(object):
         item = self.tabla_listado.horizontalHeaderItem(5)
         item.setText(_translate("Dialog", "Longitud"))
 
-    def buscarID(self, id):
+    def buscarID(self):
         if self.rdbtn_REST_listar.isChecked() == True:
             url = "https://registro.drakath.studio/REST/"
-            req = requests.get(url+id)
+            req = requests.get(url + str(self.spn_id.value()))
             data = req.json()
+            pass
             #Llenar la tabla con los datos correspondientes (PENDIENTE)
         if self.rdbtn_SOAP_listar.isChecked() == True:
+            print('SOAP uno')
             pass
 
     def buscarTodos(self):
         if self.rdbtn_REST_listar.isChecked() == True:
-            url = "https://registro.drakath.studio/REST/"
-            req = requests.get(url)
-            data = req.json()
-            for j in data:
-                #Agregar uno por uno los datos en la tabla (PENDIENTE)
-                break
+            # url = "https://registro.drakath.studio/REST/"
+            # req = requests.get(url)
+            # data = req.json()
+            # for j in data:
+            #     #Agregar uno por uno los datos en la tabla (PENDIENTE)
+            #     break
             pass
         
         if self.rdbtn_SOAP_listar.isChecked() == True:
-            pass
-
+            print('SOAP todos')
+            pass            
 
 
 if __name__ == "__main__":

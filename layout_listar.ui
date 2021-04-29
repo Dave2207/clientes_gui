@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>629</width>
-    <height>675</height>
+    <height>737</height>
    </rect>
   </property>
   <property name="font">
@@ -21,13 +21,40 @@
   <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
-     <x>160</x>
-     <y>10</y>
+     <x>150</x>
+     <y>20</y>
      <width>300</width>
-     <height>131</height>
+     <height>141</height>
     </rect>
    </property>
    <layout class="QGridLayout" name="gridLayout">
+    <item row="3" column="2" colspan="2">
+     <widget class="QPushButton" name="btn_buscar">
+      <property name="text">
+       <string>Buscar</string>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="0" colspan="4" alignment="Qt::AlignHCenter">
+     <widget class="QPushButton" name="btn_listarTodos">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="text">
+       <string>Listar todos</string>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="0" alignment="Qt::AlignLeft">
+     <widget class="QLabel" name="lbl_buscarID">
+      <property name="text">
+       <string>Buscar por Id:</string>
+      </property>
+     </widget>
+    </item>
     <item row="1" column="0" colspan="4" alignment="Qt::AlignHCenter">
      <widget class="QLabel" name="lbl_listado">
       <property name="font">
@@ -42,27 +69,7 @@
       </property>
      </widget>
     </item>
-    <item row="2" column="0" alignment="Qt::AlignLeft">
-     <widget class="QLabel" name="lbl_buscarID">
-      <property name="text">
-       <string>Buscar por Id:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="3" column="0" colspan="4" alignment="Qt::AlignHCenter">
-     <widget class="QPushButton" name="btn_listarTodos">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="text">
-       <string>Listar todos</string>
-      </property>
-     </widget>
-    </item>
-    <item row="2" column="1">
+    <item row="3" column="1">
      <widget class="QSpinBox" name="spn_id">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -78,10 +85,17 @@
       </property>
      </widget>
     </item>
-    <item row="2" column="2" colspan="2">
-     <widget class="QPushButton" name="btn_buscar">
+    <item row="2" column="0">
+     <widget class="QLabel" name="lbl_usuario">
       <property name="text">
-       <string>Buscar</string>
+       <string>Id. usuario:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="1">
+     <widget class="QSpinBox" name="spn_usuario">
+      <property name="minimum">
+       <number>1</number>
       </property>
      </widget>
     </item>
@@ -123,9 +137,9 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>160</y>
+     <y>180</y>
      <width>601</width>
-     <height>501</height>
+     <height>531</height>
     </rect>
    </property>
    <column>
