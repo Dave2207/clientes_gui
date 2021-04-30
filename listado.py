@@ -129,26 +129,39 @@ class Ui_Listar(object):
 
     def buscarID(self):
         if self.rdbtn_REST_listar.isChecked() == True:
-            url = "https://registro.drakath.studio/REST/"
+            url = "http://localhost:7000/REST/"
             req = requests.get(url + str(self.spn_id.value()))
             data = req.json()
-            pass
-            #Llenar la tabla con los datos correspondientes (PENDIENTE)
-        if self.rdbtn_SOAP_listar.isChecked() == True:
+            rowPosition = self.tabla_listado.rowCount()
+            self.tabla_listado.insertRow(rowPosition)
+            self.tabla_listado.setItem(rowPosition, 0, QtWidgets.QTableWidgetItem(data["id"]))
+            self.tabla_listado.setItem(rowPosition, 1, QtWidgets.QTableWidgetItem(data["nombre"]))
+            self.tabla_listado.setItem(rowPosition, 2, QtWidgets.QTableWidgetItem(data["sector"]))
+            self.tabla_listado.setItem(rowPosition, 3, QtWidgets.QTableWidgetItem(data["nivelEscolar"]))
+            self.tabla_listado.setItem(rowPosition, 4, QtWidgets.QTableWidgetItem(data["ubicacion"]["latitud"]))
+            self.tabla_listado.setItem(rowPosition, 5, QtWidgets.QTableWidgetItem(data["ubicacion"]["longitud"]))
+
+        elif self.rdbtn_SOAP_listar.isChecked() == True:
             print('SOAP uno')
             pass
 
     def buscarTodos(self):
         if self.rdbtn_REST_listar.isChecked() == True:
-            # url = "https://registro.drakath.studio/REST/"
-            # req = requests.get(url)
-            # data = req.json()
-            # for j in data:
-            #     #Agregar uno por uno los datos en la tabla (PENDIENTE)
-            #     break
-            pass
+            url = "http://localhost:7000/REST/"
+            req = requests.get(url)
+            data = req.json()
+            for j in data:
+                #Agregar uno por uno los datos en la tabla (PENDIENTE)
+                rowPosition = self.tabla_listado.rowCount()
+                self.tabla_listado.insertRow(rowPosition)
+                self.tabla_listado.setItem(rowPosition, 0, QtWidgets.QTableWidgetItem(j["id"]))
+                self.tabla_listado.setItem(rowPosition, 1, QtWidgets.QTableWidgetItem(j["nombre"]))
+                self.tabla_listado.setItem(rowPosition, 2, QtWidgets.QTableWidgetItem(j["sector"]))
+                self.tabla_listado.setItem(rowPosition, 3, QtWidgets.QTableWidgetItem(j["nivelEscolar"]))
+                self.tabla_listado.setItem(rowPosition, 4, QtWidgets.QTableWidgetItem(j["ubicacion"]["latitud"]))
+                self.tabla_listado.setItem(rowPosition, 5, QtWidgets.QTableWidgetItem(j["ubicacion"]["longitud"]))
         
-        if self.rdbtn_SOAP_listar.isChecked() == True:
+        elif self.rdbtn_SOAP_listar.isChecked() == True:
             print('SOAP todos')
             pass            
 
