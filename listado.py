@@ -129,7 +129,7 @@ class Ui_Listar(object):
 
     def buscarID(self):
         if self.rdbtn_REST_listar.isChecked() == True:
-            url = "http://localhost:7000/REST/"
+            url = "https://registro.drakath.studio/REST/"
             req = requests.get(url + str(self.spn_id.value()))
             data = req.json()
             rowPosition = self.tabla_listado.rowCount()
@@ -142,16 +142,24 @@ class Ui_Listar(object):
             self.tabla_listado.setItem(rowPosition, 5, QtWidgets.QTableWidgetItem(data["ubicacion"]["longitud"]))
 
         elif self.rdbtn_SOAP_listar.isChecked() == True:
-            print('SOAP uno')
-            pass
+            cli = Client("https://registro.drakath.studio/SOAP/")
+            persona = cli.service.getPersona(self.spn_id.value())
+
+            rowPosition = self.tabla_listado.rowCount()
+            self.tabla_listado.insertRow(rowPosition)
+            self.tabla_listado.setItem(rowPosition, 0, QtWidgets.QTableWidgetItem(persona["id"]))
+            self.tabla_listado.setItem(rowPosition, 1, QtWidgets.QTableWidgetItem(persona["nombre"]))
+            self.tabla_listado.setItem(rowPosition, 2, QtWidgets.QTableWidgetItem(persona["sector"]))
+            self.tabla_listado.setItem(rowPosition, 3, QtWidgets.QTableWidgetItem(persona["nivelEscolar"]))
+            self.tabla_listado.setItem(rowPosition, 4, QtWidgets.QTableWidgetItem(data["ubicacion"]["latitud"]))
+            self.tabla_listado.setItem(rowPosition, 5, QtWidgets.QTableWidgetItem(data["ubicacion"]["longitud"]))
 
     def buscarTodos(self):
         if self.rdbtn_REST_listar.isChecked() == True:
-            url = "http://localhost:7000/REST/"
+            url = "https://registro.drakath.studio/REST/"
             req = requests.get(url)
             data = req.json()
             for j in data:
-                #Agregar uno por uno los datos en la tabla (PENDIENTE)
                 rowPosition = self.tabla_listado.rowCount()
                 self.tabla_listado.insertRow(rowPosition)
                 self.tabla_listado.setItem(rowPosition, 0, QtWidgets.QTableWidgetItem(j["id"]))
@@ -163,14 +171,25 @@ class Ui_Listar(object):
         
         elif self.rdbtn_SOAP_listar.isChecked() == True:
             print('SOAP todos')
-            pass            
+            cli = Client("https://registro.drakath.studio/SOAP/")
+            personas = cli.service.getListaPersona()
+            for p in personas:
+                rowPosition = self.tabla_listado.rowCount()
+                self.tabla_listado.insertRow(rowPosition)
+                self.tabla_listado.insertRow(rowPosition)
+                self.tabla_listado.setItem(rowPosition, 0, QtWidgets.QTableWidgetItem(p["id"]))
+                self.tabla_listado.setItem(rowPosition, 1, QtWidgets.QTableWidgetItem(p["nombre"]))
+                self.tabla_listado.setItem(rowPosition, 2, QtWidgets.QTableWidgetItem(p["sector"]))
+                self.tabla_listado.setItem(rowPosition, 3, QtWidgets.QTableWidgetItem(p["nivelEscolar"]))
+                self.tabla_listado.setItem(rowPosition, 4, QtWidgets.QTableWidgetItem(p["ubicacion"]["latitud"]))
+                self.tabla_listado.setItem(rowPosition, 5, QtWidgets.QTableWidgetItem(p["ubicacion"]["longitud"]))
 
 
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    Dialog = QtWidgets.QDialog()
-    ui = Ui_Dialog()
-    ui.setupUi(Dialog)
-    Dialog.show()
-    sys.exit(app.exec_())
+# if __name__ == "__main__":
+#     import sys
+#     app = QtWidgets.QApplication(sys.argv)
+#     Dialog = QtWidgets.QDialog()
+#     ui = Ui_Dialog()
+#     ui.setupUi(Dialog)
+#     Dialog.show()
+#     sys.exit(app.exec_())

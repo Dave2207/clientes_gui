@@ -193,7 +193,7 @@ class Ui_Crear(object):
     #     cam.release()
     #     cv2.destroyAllWindows()
     
-    def enviar(self):
+    def enviar(self): #FALTA PROBAR LA CREACION DE PERSONA MEDIANTE EL CLIENTE Y CUADRAR EL JSON PARA ESO EN AMBOS CLIENTES
         if self.rdbtn_REST_crear.isChecked():
             url = "https://registro.drakath.studio/REST/"
             # try:
@@ -223,13 +223,15 @@ class Ui_Crear(object):
                 try:
                     data = {"nombre": nombre, 
                     "sector": sector, 
-                    "nivel": nivelEducativo, 
-                    "latitud": latitud, 
-                    "longitud": longitud, 
+                    "nivelEscolar": nivelEducativo,
+                    "ubicacion": {
+                        "latitud": latitud, 
+                        "longitud": longitud 
+                        }, 
                     "usuario": usuario, 
                     "imagen": foto
                     }
-
+                
                     info = json.dumps(data)
                     req = requests.post(url = url, data = info)
                 except Exception as e:
@@ -237,15 +239,55 @@ class Ui_Crear(object):
 
 
         elif self.rdbtn_SOAP_crear.isChecked():
-            print('SOAP')
+            cli = Client("https://registro.drakath.studio/SOAP/")
+            # try:
+            #     image = open('lastpicture.jpeg', 'rb')
+            #     image_read = image.read()
+            #     encoded = base64.b64encode(image_read).decode("utf-8")
+            # except Exception as e:
+            #     print(e)
+            #     return
+            #Datos de la persona
+            nombre = self.txt_nombre.text()
+            sector = self.txt_sector.text()
+            nivelEducativo = str(self.cbx_nivel.currentText())
+            latitud = self.txt_latitud.text()
+            longitud = self.txt_longitud.text()
+            foto = {}
+            usuario = "admin"
+
+            if nombre == "" or sector == "" or nivelEducativo == "<Seleccione>":
+                msg = QMessageBox()
+                msg.setIcon(QMessageBox.Critical)
+                msg.setText("Campo Vacío")
+                msg.setInformativeText("Hay uno o más campos vacíos en el formulario.")
+                msg.setWindowTitle("Error")
+                msg.exec_()
+            else:
+                try:
+                    data = {"nombre": nombre, 
+                    "sector": sector, 
+                    "nivelEscolar": nivelEducativo,
+                    "ubicacion": {
+                        "latitud": latitud, 
+                        "longitud": longitud 
+                        }, 
+                    "usuario": usuario, 
+                    "imagen": foto
+                    }
+
+                    info = json.dumps(data)
+                    cli.service.crearPersona(json.loads(str(info)))
+                except Exception as e:
+                    print(e)
 
 
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    Dialog = QtWidgets.QDialog()
-    ui = Ui_Dialog()
-    myloc = geocoder.ip('me')
-    ui.setupUi(Dialog)
-    Dialog.show()
-    sys.exit(app.exec_())
+# if __name__ == "__main__":
+#     import sys
+#     app = QtWidgets.QApplication(sys.argv)
+#     Dialog = QtWidgets.QDialog()
+#     ui = Ui_Dialog()
+#     myloc = geocoder.ip('me')
+#     ui.setupUi(Dialog)
+#     Dialog.show()
+#     sys.exit(app.exec_())
