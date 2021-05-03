@@ -137,7 +137,7 @@ class Ui_Crear(object):
 
         #Funcionalidades
         #self.btn_foto.clicked.connect(self.foto)
-        #self.btn_registrar.clicked.connect(self.enviar)
+        self.btn_registrar.clicked.connect(self.enviar)
 
     def retranslateUi(self, Dialog, loc):
         _translate = QtCore.QCoreApplication.translate
@@ -195,7 +195,7 @@ class Ui_Crear(object):
     
     def enviar(self): #FALTA PROBAR LA CREACION DE PERSONA MEDIANTE EL CLIENTE Y CUADRAR EL JSON PARA ESO EN AMBOS CLIENTES
         if self.rdbtn_REST_crear.isChecked():
-            url = "https://registro.drakath.studio/REST/"
+            url = "http://localhost:7000/REST/"
             # try:
             #     image = open('lastpicture.jpeg', 'rb')
             #     image_read = image.read()
@@ -224,11 +224,8 @@ class Ui_Crear(object):
                     data = {"nombre": nombre, 
                     "sector": sector, 
                     "nivelEscolar": nivelEducativo,
-                    "ubicacion": {
-                        "latitud": latitud, 
-                        "longitud": longitud 
-                        },
-                    "imagen": foto
+                    "latitud": latitud, 
+                    "longitud": longitud 
                     }
                 
                     info = json.dumps(data)
@@ -266,15 +263,12 @@ class Ui_Crear(object):
                     data = {"nombre": nombre, 
                     "sector": sector, 
                     "nivelEscolar": nivelEducativo,
-                    "ubicacion": {
-                        "latitud": latitud, 
-                        "longitud": longitud 
-                        }, 
-                    "imagen": foto
+                    "latitud": latitud, 
+                    "longitud": longitud 
                     }
 
                     info = json.dumps(data)
-                    cli.service.crearPersona(json.loads(str(info)))
+                    cli.service.crearPersona(info)
                 except Exception as e:
                     print(e)
 
