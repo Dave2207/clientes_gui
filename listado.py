@@ -153,8 +153,8 @@ class Ui_Listar(object):
             self.tabla_listado.setItem(rowPosition, 1, QtWidgets.QTableWidgetItem(persona["nombre"]))
             self.tabla_listado.setItem(rowPosition, 2, QtWidgets.QTableWidgetItem(persona["sector"]))
             self.tabla_listado.setItem(rowPosition, 3, QtWidgets.QTableWidgetItem(persona["nivelEscolar"]))
-            self.tabla_listado.setItem(rowPosition, 4, QtWidgets.QTableWidgetItem(data["ubicacion"]["latitud"]))
-            self.tabla_listado.setItem(rowPosition, 5, QtWidgets.QTableWidgetItem(data["ubicacion"]["longitud"]))
+            self.tabla_listado.setItem(rowPosition, 4, QtWidgets.QTableWidgetItem(persona["ubicacion"]["latitud"]))
+            self.tabla_listado.setItem(rowPosition, 5, QtWidgets.QTableWidgetItem(persona["ubicacion"]["longitud"]))
 
     def buscarTodos(self):
         if self.rdbtn_REST_listar.isChecked() == True:
@@ -180,7 +180,6 @@ class Ui_Listar(object):
             for p in personas:
                 p = json.loads(p)
                 rowPosition = self.tabla_listado.rowCount()
-                self.tabla_listado.insertRow(rowPosition)
                 self.tabla_listado.insertRow(rowPosition)
                 self.tabla_listado.setItem(rowPosition, 0, QtWidgets.QTableWidgetItem(str(p["id"])))
                 self.tabla_listado.setItem(rowPosition, 1, QtWidgets.QTableWidgetItem(p["nombre"]))
