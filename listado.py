@@ -57,13 +57,6 @@ class Ui_Listar(object):
         self.spn_id.setMaximum(10000)
         self.spn_id.setObjectName("spn_id")
         self.gridLayout.addWidget(self.spn_id, 3, 1, 1, 1)
-        self.lbl_usuario = QtWidgets.QLabel(self.layoutWidget)
-        self.lbl_usuario.setObjectName("lbl_usuario")
-        self.gridLayout.addWidget(self.lbl_usuario, 2, 0, 1, 1)
-        self.spn_usuario = QtWidgets.QSpinBox(self.layoutWidget)
-        self.spn_usuario.setMinimum(1)
-        self.spn_usuario.setObjectName("spn_usuario")
-        self.gridLayout.addWidget(self.spn_usuario, 2, 1, 1, 1)
         self.layoutWidget1 = QtWidgets.QWidget(Dialog)
         self.layoutWidget1.setGeometry(QtCore.QRect(490, 40, 101, 91))
         self.layoutWidget1.setObjectName("layoutWidget1")
@@ -111,7 +104,6 @@ class Ui_Listar(object):
         self.btn_listarTodos.setText(_translate("Dialog", "Listar todos"))
         self.lbl_buscarID.setText(_translate("Dialog", "Buscar por Id:"))
         self.lbl_listado.setText(_translate("Dialog", "Listado de Personas"))
-        self.lbl_usuario.setText(_translate("Dialog", "Id. usuario:"))
         self.rdbtn_REST_listar.setText(_translate("Dialog", "REST"))
         self.rdbtn_SOAP_listar.setText(_translate("Dialog", "SOAP"))
         item = self.tabla_listado.horizontalHeaderItem(0)
@@ -129,7 +121,7 @@ class Ui_Listar(object):
 
     def buscarID(self):
         if self.rdbtn_REST_listar.isChecked() == True:
-            url = "http://localhost:7000/REST/"
+            url = "https://registro.drakath.studio/REST/"
             req = requests.get(url + str(self.spn_id.value()))
             data = req.json()
             self.tabla_listado.setRowCount(0)
@@ -143,7 +135,7 @@ class Ui_Listar(object):
             self.tabla_listado.setItem(rowPosition, 5, QtWidgets.QTableWidgetItem(data["ubicacion"]["longitud"]))
 
         elif self.rdbtn_SOAP_listar.isChecked() == True:
-            cli = Client("http://localhost:7000/ws/PersonaWebServices?wsdl")
+            cli = Client("https://registro.drakath.studio/ws/PersonaWebServices?wsdl")
             persona = cli.service.getPersona(self.spn_id.value())
             persona = json.loads(persona)
             self.tabla_listado.setRowCount(0)
@@ -158,7 +150,7 @@ class Ui_Listar(object):
 
     def buscarTodos(self):
         if self.rdbtn_REST_listar.isChecked() == True:
-            url = "http://localhost:7000/REST/"
+            url = "https://registro.drakath.studio/REST/"
             req = requests.get(url)
             data = req.json()
             self.tabla_listado.setRowCount(0)
@@ -174,7 +166,7 @@ class Ui_Listar(object):
         
         elif self.rdbtn_SOAP_listar.isChecked() == True:
             print('SOAP todos')
-            cli = Client("http://localhost:7000/ws/PersonaWebServices?wsdl")
+            cli = Client("https://registro.drakath.studio/ws/PersonaWebServices?wsdl")
             personas = cli.service.getListaPersona()
             self.tabla_listado.setRowCount(0)
             for p in personas:

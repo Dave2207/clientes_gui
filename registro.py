@@ -195,7 +195,7 @@ class Ui_Crear(object):
     
     def enviar(self): #FALTA PROBAR LA CREACION DE PERSONA MEDIANTE EL CLIENTE Y CUADRAR EL JSON PARA ESO EN AMBOS CLIENTES
         if self.rdbtn_REST_crear.isChecked():
-            url = "http://localhost:7000/REST/"
+            url = "https://registro.drakath.studio/REST/"
             # try:
             #     image = open('lastpicture.jpeg', 'rb')
             #     image_read = image.read()
@@ -235,7 +235,7 @@ class Ui_Crear(object):
 
 
         elif self.rdbtn_SOAP_crear.isChecked():
-            cli = Client("http://localhost:7000/ws/PersonaWebServices?wsdl")
+            cli = Client("https://registro.drakath.studio/ws/PersonaWebServices?wsdl")
             # try:
             #     image = open('lastpicture.jpeg', 'rb')
             #     image_read = image.read()
