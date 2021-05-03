@@ -129,9 +129,10 @@ class Ui_Listar(object):
 
     def buscarID(self):
         if self.rdbtn_REST_listar.isChecked() == True:
-            url = "https://registro.drakath.studio/REST/"
+            url = "http://localhost:7000/REST/"
             req = requests.get(url + str(self.spn_id.value()))
             data = req.json()
+            self.tabla_listado.setRowCount(0)
             rowPosition = self.tabla_listado.rowCount()
             self.tabla_listado.insertRow(rowPosition)
             self.tabla_listado.setItem(rowPosition, 0, QtWidgets.QTableWidgetItem(data["id"]))
@@ -142,9 +143,10 @@ class Ui_Listar(object):
             self.tabla_listado.setItem(rowPosition, 5, QtWidgets.QTableWidgetItem(data["ubicacion"]["longitud"]))
 
         elif self.rdbtn_SOAP_listar.isChecked() == True:
-            cli = Client("https://registro.drakath.studio/SOAP/")
+            cli = Client("http://localhost:7000/ws/PersonaWebServices?wsdl")
             persona = cli.service.getPersona(self.spn_id.value())
-
+            persona = json.loads(persona)
+            self.tabla_listado.setRowCount(0)
             rowPosition = self.tabla_listado.rowCount()
             self.tabla_listado.insertRow(rowPosition)
             self.tabla_listado.setItem(rowPosition, 0, QtWidgets.QTableWidgetItem(persona["id"]))
@@ -156,9 +158,10 @@ class Ui_Listar(object):
 
     def buscarTodos(self):
         if self.rdbtn_REST_listar.isChecked() == True:
-            url = "https://registro.drakath.studio/REST/"
+            url = "http://localhost:7000/REST/"
             req = requests.get(url)
             data = req.json()
+            self.tabla_listado.setRowCount(0)
             for j in data:
                 rowPosition = self.tabla_listado.rowCount()
                 self.tabla_listado.insertRow(rowPosition)
@@ -171,9 +174,11 @@ class Ui_Listar(object):
         
         elif self.rdbtn_SOAP_listar.isChecked() == True:
             print('SOAP todos')
-            cli = Client("https://registro.drakath.studio/SOAP/")
+            cli = Client("http://localhost:7000/ws/PersonaWebServices?wsdl")
             personas = cli.service.getListaPersona()
+            self.tabla_listado.setRowCount(0)
             for p in personas:
+                p = json.loads(p)
                 rowPosition = self.tabla_listado.rowCount()
                 self.tabla_listado.insertRow(rowPosition)
                 self.tabla_listado.insertRow(rowPosition)

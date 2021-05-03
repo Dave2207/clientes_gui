@@ -227,8 +227,7 @@ class Ui_Crear(object):
                     "ubicacion": {
                         "latitud": latitud, 
                         "longitud": longitud 
-                        }, 
-                    "usuario": usuario, 
+                        },
                     "imagen": foto
                     }
                 
@@ -239,7 +238,7 @@ class Ui_Crear(object):
 
 
         elif self.rdbtn_SOAP_crear.isChecked():
-            cli = Client("https://registro.drakath.studio/SOAP/")
+            cli = Client("http://localhost:7000/ws/PersonaWebServices?wsdl")
             # try:
             #     image = open('lastpicture.jpeg', 'rb')
             #     image_read = image.read()
@@ -254,7 +253,6 @@ class Ui_Crear(object):
             latitud = self.txt_latitud.text()
             longitud = self.txt_longitud.text()
             foto = {}
-            usuario = "admin"
 
             if nombre == "" or sector == "" or nivelEducativo == "<Seleccione>":
                 msg = QMessageBox()
@@ -272,7 +270,6 @@ class Ui_Crear(object):
                         "latitud": latitud, 
                         "longitud": longitud 
                         }, 
-                    "usuario": usuario, 
                     "imagen": foto
                     }
 
