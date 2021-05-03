@@ -230,6 +230,17 @@ class Ui_Crear(object):
                 
                     info = json.dumps(data)
                     req = requests.post(url = url, data = info)
+
+                    msg = QMessageBox()
+                    msg.setIcon(QMessageBox.Critical)
+                    msg.setInformativeText("Se realizó el registro satisfactoriamente")
+                    msg.setWindowTitle("Registro")
+                    msg.exec_()
+
+                    self.txt_nombre.setText("")
+                    self.txt_sector.setText("")
+                    self.cbx_nivel.setCurrentIndex(0)
+
                 except Exception as e:
                     print(e)
 
@@ -269,6 +280,17 @@ class Ui_Crear(object):
 
                     info = json.dumps(data)
                     cli.service.crearPersona(info)
+
+                    msg = QMessageBox()
+                    msg.setIcon(QMessageBox.Critical)
+                    msg.setInformativeText("Se realizó el registro satisfactoriamente")
+                    msg.setWindowTitle("Registro")
+                    msg.exec_()
+
+                    self.txt_nombre.setText("")
+                    self.txt_sector.setText("")
+                    self.cbx_nivel.setCurrentIndex(0)
+
                 except Exception as e:
                     print(e)
 
